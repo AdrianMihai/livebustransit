@@ -28,6 +28,7 @@ app.use('/scripts', express.static(__dirname + '/node_modules'));
 app.get('/', (req, res) => {
 	res.type('text/html');
 
+
 	fs.readFile('views/start.html', (error, data) => {
 		if (error) {
 			throw error;
@@ -55,4 +56,3 @@ userSockets.on('connection', function (socket) {
     	console.log(usersCount);
     });
 });
-console.log("Hacked by filipoiu1");
