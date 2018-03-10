@@ -144,9 +144,8 @@ app.post('/busLogIn', (req, response) => {
 });
 
 //users Sockets
-let userSockets = io.of('/');
+let userSockets = io.of('/'), users= [];
 
-var users= [];
 userSockets.on('connection', function (socket) {
 //introducem clientul in cients
 	socket.on('storeClientInfo', function (data) {
@@ -160,11 +159,11 @@ userSockets.on('connection', function (socket) {
 
     socket.on('disconnect', function(){
 	//stergem clientul din sesiunea curenta
-      for( var i=0, len=clients.length; i<len; ++i ){
-          var currentClient = clients[i];
+      for( var i=0, len=users.length; i<len; ++i ){
+          var currentClient = users[i];
 
           if(currentClient.clientId == socket.id){//client id-ul reprezinta id-ul socketului implicita
-              clients.splice(i,1);
+              users.splice(i,1);
               break;
           }
       }
@@ -189,7 +188,7 @@ busesSockets.on('connection', function (socket) {
  
   socket.on('disconnect', function(){
 	//scoatem autobuzele din sesiunea curenta la deconectare
-	for( var i=0, len=buses.length; i<len; ++i ){
+	for( var i=0, len = buses.length; i<len; ++i ){
 		var currentBus = buses[i];
 		if(currentBus.clientId == socket.id){//client id-ul reprezinta id-ul socketului implicita
 			buses.splice(i,1);
