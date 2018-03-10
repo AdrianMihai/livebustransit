@@ -22270,7 +22270,7 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 			distance /= 1000;
 
-			alert(Math.floor(distance / time));
+			alert(distance);
 			console.log(distance, time);
 
 			this.state.socket.emit('bus-new-location', Math.floor(distance / time));
