@@ -57,7 +57,6 @@ app.get('/', (req, res) => {
 	
 });
 
-<<<<<<< HEAD
 app.get('/busWatcher', (req, res) => {
 	res.type('text/html');
 
