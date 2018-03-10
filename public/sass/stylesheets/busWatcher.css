@@ -1,0 +1,84 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* line 11, ../sass/busWatcher.scss */
+body {
+  padding: 0;
+}
+
+/* line 15, ../sass/busWatcher.scss */
+html, body, #map {
+  height: 100%;
+  width: 100vw;
+}
+
+/* line 21, ../sass/busWatcher.scss */
+.loader {
+  position: absolute;
+  top: calc(50% - 40px);
+  left: calc(50% - 40px);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 6px dotted #ED9B42;
+  animation: spin 2s linear infinite;
+}
+
+/* line 32, ../sass/busWatcher.scss */
+.login-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/public/img/buses_warsaw.jpg");
+  background-color: rgba(0, 0, 0, 0.55);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-blend-mode: multiply;
+  z-index: 15;
+}
+
+/* line 49, ../sass/busWatcher.scss */
+.main-login-container {
+  position: absolute;
+  top: 25%;
+  left: calc(50% - 190px);
+  max-width: 380px;
+  padding: 15px;
+  background-color: #2d2d2d;
+  background-color: rgba(35, 35, 35, 0.85);
+  z-index: 20;
+}
+/* line 61, ../sass/busWatcher.scss */
+.main-login-container .pmd-textfield label {
+  color: #eceeef !important;
+}
+/* line 69, ../sass/busWatcher.scss */
+.main-login-container h3 {
+  text-align: center;
+  text-align: -webkit-center;
+}
+/* line 74, ../sass/busWatcher.scss */
+.main-login-container button {
+  float: right;
+}
+
+@media screen and (min-width: 1366px) {
+  /* line 80, ../sass/busWatcher.scss */
+  .login-background {
+    background-size: cover;
+  }
+}
+@media screen and (max-width: 450px) {
+  /* line 86, ../sass/busWatcher.scss */
+  .main-login-container {
+    width: 95%;
+    left: 2.5%;
+  }
+}
