@@ -22258,10 +22258,16 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		if (this.locationPoints.length > 2) this.locationPoints.splice(0, 1);
 
 		if (this.locationPoints.length === 2) {
+			const googleRoadsApiUrl = 'https://roads.googleapis.com/v1/snapToRoads?path=' + this.locationPoints[0].lat.toString() + ',' + this.locationPoints[0].lng.toString() + '&interpolate=true&key=AIzaSyCsKxsBnBH0Vhg9pTMJF9ef-qiDK3IbL0g';
+			$.get(googleRoadsApiUrl, data => {
+				console.log(data);
+			});
+
 			const distance = this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[0].lat, this.locationPoints[0].lng), e.latlng) / 1000;
 			const time = (this.locationPoints[1].timeStamp - this.locationPoints[0].timeStamp) * 3600;
 
-			console.log(distance, time);
+			console.log(Math.floor(distance / time));
+
 			this.state.socket.emit('bus-new-location', time);
 
 			this.setState({
