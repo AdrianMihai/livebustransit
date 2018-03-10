@@ -22270,7 +22270,8 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 			distance /= 1000;
 
-			console.log(Math.floor(distance / time));
+			alert(Math.floor(distance / time));
+			console.log(distance, time);
 
 			this.state.socket.emit('bus-new-location', Math.floor(distance / time));
 
@@ -22306,13 +22307,14 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'p',
 					null,
+					' ',
 					this.state.currentSpeed,
 					' '
 				),
 				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 					'p',
 					null,
-					'km/h '
+					'km/h'
 				)
 			)
 		);
