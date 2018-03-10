@@ -22250,10 +22250,12 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			busId: this.state.busData.id,
 			currentLocationLat: e.latitude,
 			currentLocationLng: e.longitude,
-			currentTime: new Date().getTime()
+			currentTime: e.timestamp
 		};
 
-		this.locationPoints.push({ lat: e.latitude, lng: e.longitude, timeStamp: new Date().getTime() });
+		this.locationPoints.push({ lat: e.latitude, lng: e.longitude, timeStamp: e.timestamp });
+
+		console.log(e);
 
 		if (this.locationPoints.length > 2) this.locationPoints.splice(0, 1);
 
@@ -22276,13 +22278,12 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			distance = this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[0].lat, this.locationPoints[0].lng), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[1].lat, this.locationPoints[1].lng));
 			distance /= 1000;
 
-			alert(distance);
-			console.log(distance, time);
+			alert(Math.floor(distance / time));
 
 			this.state.socket.emit('bus-new-location', Math.floor(distance / time));
 
 			this.setState({
-				currentSpeed: Math.floor(distance / time)
+				currentSpeed: e.speed
 			});
 		}
 
