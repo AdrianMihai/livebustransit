@@ -22258,16 +22258,22 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		if (this.locationPoints.length > 2) this.locationPoints.splice(0, 1);
 
 		if (this.locationPoints.length === 2) {
-			const googleRoadsApiUrl = 'https://roads.googleapis.com/v1/snapToRoads?path=' + this.locationPoints[0].lat.toString() + ',' + this.locationPoints[0].lng.toString() + '| ' + this.locationPoints[1].lat.toString() + ',' + this.locationPoints[1].lng.toString() + '&interpolate=true&key=AIzaSyCsKxsBnBH0Vhg9pTMJF9ef-qiDK3IbL0g';
 			const time = (this.locationPoints[1].timeStamp - this.locationPoints[0].timeStamp) / (1000 * 60 * 60);
 			let distance = 0;
 
-			$.get(googleRoadsApiUrl, data => {
-				for (var i = data.length - 1; i > 0; i--) {
-					distance += this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(data[i].location.latitude, data[i].longitude), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(data[i - 1].location.latitude, data[i - 1].longitude));
-				}
-			});
+			/*
+   const googleRoadsApiUrl = 'https://roads.googleapis.com/v1/snapToRoads?path=' +
+   	this.locationPoints[0].lat.toString() + ',' + this.locationPoints[0].lng.toString() + '| ' +
+   	this.locationPoints[1].lat.toString() + ',' + this.locationPoints[1].lng.toString() +
+   	'&interpolate=true&key=AIzaSyCsKxsBnBH0Vhg9pTMJF9ef-qiDK3IbL0g';
+   		$.get(googleRoadsApiUrl, (data) => {
+   	for (var i = data.length - 1; i > 0; i--) {
+   		distance += this.state.map.distance(L.latLng(data[i].location.latitude, data[i].longitude), L.latLng(data[i - 1].location.latitude, data[i - 1].longitude));
+   	}
+   });
+   */
 
+			distance = this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[0].lat, this.locationPoints[0].lng), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[1].lat, this.locationPoints[1].lng));
 			distance /= 1000;
 
 			alert(distance);
