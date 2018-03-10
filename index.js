@@ -88,7 +88,7 @@ app.get('/isBusLoggedIn', (request, response) => {
 			"SELECT * FROM buses WHERE id=?",
 			[request.session.busData.id],
 			function(error, results, fields) {
-				console.log(results);
+		
 
 				if (results) {
 					let busData = results[0];
@@ -176,23 +176,36 @@ userSockets.on('connection', function (socket) {
 let busesSockets = io.of('/bus');
 var buses =[];
 
+function getLastBusPosition(busId) {
+	/*
+		Function that gets the last position of a given bus.
+		In: busId (int)
+		Out: object with the requested data
+	*/
+}
+
 busesSockets.on('connection', function (socket) {
 	//bagam autobuzele in busses dupa ce se logheaza
 	socket.on('storeClientInfo', function (data) {
-		console.log(data);
-		var busInfo = new Object();
-		busInfo.customId     = data.customId;
-		busInfo.clientId     = socket.id;
+		console.log("Bus logged in.");
+
+		var busInfo = {};
+		busInfo.customId = data;
+		busInfo.clientId = socket.id;
 		buses.push(busInfo);
 	});
+
+	socket.on('bus-new-location', function(data){
+		console.log(data);
+	});
  
-  socket.on('disconnect', function(){
-	//scoatem autobuzele din sesiunea curenta la deconectare
-	for( var i=0, len = buses.length; i<len; ++i ){
-		var currentBus = buses[i];
-		if(currentBus.clientId == socket.id){//client id-ul reprezinta id-ul socketului implicita
-			buses.splice(i,1);
-			break;
+  	socket.on('disconnect', function(){
+		//scoatem autobuzele din sesiunea curenta la deconectare
+		for( var i=0, len = buses.length; i<len; ++i ){
+			var currentBus = buses[i];
+			if(currentBus.clientId == socket.id){//client id-ul reprezinta id-ul socketului implicita
+				buses.splice(i,1);
+				break;
 	}
 }
 
