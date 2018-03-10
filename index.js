@@ -46,6 +46,7 @@ app.use(cookieSession(
 app.get('/', (req, res) => {
 	res.type('text/html');
 
+
 	fs.readFile('views/start.html', (error, data) => {
 		if (error) {
 			throw error;
@@ -56,6 +57,7 @@ app.get('/', (req, res) => {
 	
 });
 
+<<<<<<< HEAD
 app.get('/busWatcher', (req, res) => {
 	res.type('text/html');
 
@@ -142,23 +144,59 @@ app.post('/busLogIn', (req, response) => {
 	*/
 });
 
-//sockets connections start here
-let userSockets = io.of('/'), usersCount = 0;
+//users Sockets
+let userSockets = io.of('/');
 
+var users= [];
 userSockets.on('connection', function (socket) {
-	console.log("Un fraier s-a conectat");
+//introducem clientul in cients
+	socket.on('storeClientInfo', function (data) {
+		console.log(data);
+		var userInfo = new Object();
+		userInfo.customId     = data.customId;
+		userInfo.clientId     = socket.id;
+		users.push(userInfo);
+	});
 
-  	socket.emit('news', { hello: 'world' });
-
-  	socket.on('my other event', function (data) {
-  		usersCount++;
-    	console.log(usersCount);
-    });
 
     socket.on('disconnect', function(){
-    	usersCount--;
-    	console.log(usersCount);
+	//stergem clientul din sesiunea curenta
+      for( var i=0, len=clients.length; i<len; ++i ){
+          var currentClient = clients[i];
+
+          if(currentClient.clientId == socket.id){//client id-ul reprezinta id-ul socketului implicita
+              clients.splice(i,1);
+              break;
+          }
+      }
     });
 });
 
-//con.end();
+
+
+//buses sockets
+let busesSockets = io.of('/bus');
+var buses =[];
+
+busesSockets.on('connection', function (socket) {
+	//bagam autobuzele in busses dupa ce se logheaza
+	socket.on('storeClientInfo', function (data) {
+		console.log(data);
+		var busInfo = new Object();
+		busInfo.customId     = data.customId;
+		busInfo.clientId     = socket.id;
+		buses.push(busInfo);
+	});
+ 
+  socket.on('disconnect', function(){
+	//scoatem autobuzele din sesiunea curenta la deconectare
+	for( var i=0, len=buses.length; i<len; ++i ){
+		var currentBus = buses[i];
+		if(currentBus.clientId == socket.id){//client id-ul reprezinta id-ul socketului implicita
+			buses.splice(i,1);
+			break;
+	}
+}
+
+    });
+});
