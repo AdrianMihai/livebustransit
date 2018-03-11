@@ -22232,7 +22232,10 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			setView: true,
 			maxZoom: 16,
 			watch: true,
-			enableHighAccuracy: true
+			enableHighAccuracy: true,
+			timeout: 28000,
+			maximumAge: 10000
+
 		});
 
 		this.state.map.on('locationfound', this.onLocationFound);
@@ -22255,8 +22258,6 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		this.locationPoints.push({ lat: e.latitude, lng: e.longitude, timeStamp: e.timestamp });
 
-		console.log(e);
-
 		if (this.locationPoints.length > 2) this.locationPoints.splice(0, 1);
 
 		if (this.locationPoints.length === 2) {
@@ -22278,12 +22279,12 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			distance = this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[0].lat, this.locationPoints[0].lng), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[1].lat, this.locationPoints[1].lng));
 			distance /= 1000;
 
-			alert(Math.floor(distance / time));
+			alert(e.speed);
 
 			this.state.socket.emit('bus-new-location', Math.floor(distance / time));
 
 			this.setState({
-				currentSpeed: e.speed
+				currentSpeed: Math.floor(distance / time)
 			});
 		}
 
