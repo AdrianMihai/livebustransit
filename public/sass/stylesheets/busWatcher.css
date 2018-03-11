@@ -101,14 +101,22 @@ html, body, #map {
   margin: 5px auto;
 }
 
+/* line 112, ../sass/busWatcher.scss */
+.logout-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 990;
+}
+
 @media screen and (min-width: 1366px) {
-  /* line 113, ../sass/busWatcher.scss */
+  /* line 121, ../sass/busWatcher.scss */
   .login-background {
     background-size: cover;
   }
 }
 @media screen and (max-width: 450px) {
-  /* line 119, ../sass/busWatcher.scss */
+  /* line 127, ../sass/busWatcher.scss */
   .main-login-container {
     width: 95%;
     left: 2.5%;

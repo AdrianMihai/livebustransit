@@ -4608,6 +4608,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 		};
 
 		this.isLoggedIn = this.isLoggedIn.bind(this);
+		this.logOut = this.logOut.bind(this);
 		this.formSubmitHandler = this.formSubmitHandler.bind(this);
 	}
 
@@ -4664,6 +4665,17 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 		});
 	}
 
+	logOut() {
+		__WEBPACK_IMPORTED_MODULE_4_jquery___default.a.get('/busLogOut', data => {
+			if (data.STATUS === 'OK') {
+				this.setState({
+					busUser: null,
+					isLoggedIn: false
+				});
+			}
+		});
+	}
+
 	render() {
 		switch (this.state.isLoggedIn) {
 			case null:
@@ -4681,7 +4693,7 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__loginPage__["a" /* default */], { loginHandler: this.formSubmitHandler });
 				break;
 			case true:
-				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__map__["a" /* default */], { busUserData: this.state.busUser });
+				return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__map__["a" /* default */], { busUserData: this.state.busUser, logOutHandler: this.logOut });
 				break;
 			default:
 				return null;
@@ -22279,12 +22291,14 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 			distance = this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[0].lat, this.locationPoints[0].lng), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[1].lat, this.locationPoints[1].lng));
 			distance /= 1000;
 
-			alert(e.speed);
+			dataToBeInserted.speed = time == 0 ? 0 : Math.floor(distance / time);
 
-			this.state.socket.emit('bus-new-location', Math.floor(distance / time));
+			console.log(distance, time);
+
+			this.state.socket.emit('bus-new-location', dataToBeInserted);
 
 			this.setState({
-				currentSpeed: Math.floor(distance / time)
+				currentSpeed: dataToBeInserted.speed
 			});
 		}
 
@@ -22323,6 +22337,17 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 					'p',
 					null,
 					'km/h'
+				)
+			),
+			__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+				'div',
+				{ className: 'logout-button' },
+				__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+					'button',
+					{ onClick: () => {
+							this.state.map.remove();this.props.logOutHandler();
+						}, type: 'button', className: 'btn pmd-btn-outline pmd-ripple-effect btn-warning' },
+					'Log Out'
 				)
 			)
 		);

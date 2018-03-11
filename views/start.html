@@ -87,7 +87,7 @@
 	                </li>
 
 	                <li>
-	                	<a class="pmd-ripple-effect" href="javascript:void(0);">
+	                	<a class="pmd-ripple-effect" href="javascript:void(0);" data-target="#route-selection" data-toggle="modal">
 	                		<i class="material-icons media-left media-middle">near_me</i>
 	                		<span class="media-body">Set up route</span>
 	                	</a>
@@ -98,35 +98,50 @@
     		<div id="map"></div>
     		<div class="pmd-sidebar-overlay"></div>
     		<div id="react-root"></div>
-	        <!-- Start Content -->
-	        <!--
-	        <div class="pmd-content custom-pmd-content" id="content">
-	            <h2 class="headline">Sidebar Constructor</h2>
-	            <p>This structure shows a permanent app bar with a floating action button. The app bar absorbs elements from the tablet and mobile bottom bars.</p>
-	            <p style="margin-bottom:0;">An optional bottom bar can be added for additional functionality or action overflow. A side nav overlays all other structural elements. A right nav menu can be accessed temporarily or pinned for permanent display.</p>
+	    <!-- Start Content -->
 
-	            <div class="row">
-	            	<div class="col-xs-12 col-sm-4 text-center">
-	            		<p>
-	            			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus orci nisi, eu volutpat dolor pretium sit amet. Donec ullamcorper elit nunc, eget imperdiet enim hendrerit eget. Proin luctus at elit et semper. Sed hendrerit purus vitae ipsum rutrum accumsan. Cras sodales eget lorem volutpat viverra. 
-	            		</p>
-	            	</div>
-
-	            	<div class="col-xs-12 col-sm-4 text-center">
-	            		<p>
-	            			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus orci nisi, eu volutpat dolor pretium sit amet. Donec ullamcorper elit nunc, eget imperdiet enim hendrerit eget. Proin luctus at elit et semper. Sed hendrerit purus vitae ipsum rutrum accumsan. Cras sodales eget lorem volutpat viverra. 
-	            		</p>
-	            	</div>
-
-	            	<div class="col-xs-12 col-sm-4 text-center">
-	            		<p>
-	            			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus orci nisi, eu volutpat dolor pretium sit amet. Donec ullamcorper elit nunc, eget imperdiet enim hendrerit eget. Proin luctus at elit et semper. Sed hendrerit purus vitae ipsum rutrum accumsan. Cras sodales eget lorem volutpat viverra. 
-	            		</p>
-	            	</div>
-
-	            </div>
-	        </div>
-	       -->
+	    <!-- MODAL
+	    <div tabindex="-1" class="modal fade" id="route-selection" style="display: none;" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header pmd-modal-bordered"> 
+						<h3 class="pmd-card-title-text">Select your prefered route</h3>
+					</div>
+					<div class="modal-body">
+						<div class="radio">
+							<label class="pmd-radio">
+								<input type="radio" name="inlineRadioOptions" id="Ahmedabad" value="option1">
+								<span for="Ahmedabad">Ahmedabad</span> </label>
+						</div>
+						<div class="radio">
+							<label class="pmd-radio">
+								<input type="radio" name="inlineRadioOptions" id="Surat" value="option1">
+								<span for="Surat">Surat</span> </label>
+						</div>
+						<div class="radio">
+							<label class="pmd-radio">
+								<input type="radio" name="inlineRadioOptions" id="Rajkot" value="option1">
+								<span for="Rajkot">Rajkot</span> </label>
+						</div>
+						<div class="radio">
+							<label class="pmd-radio">
+								<input type="radio" name="inlineRadioOptions" id="Vadodara" value="option1">
+								<span for="Vadodara">Vadodara</span> </label>
+						</div>
+						<div class="radio">
+							<label class="pmd-radio">
+								<input type="radio" name="inlineRadioOptions" id="Mehsana" value="option1">
+								<span for="Mehsana">Mehsana</span> </label>
+						</div>
+					</div>
+					<div class="pmd-modal-action pmd-modal-bordered text-right">
+						<button data-dismiss="modal"  class="btn pmd-ripple-effect btn-primary pmd-btn-flat" type="button">Ok</button>
+						<button data-dismiss="modal"  class="btn pmd-ripple-effect btn-default pmd-btn-flat" type="button">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		-->
     	</section>
 
 		<!-- jQuery before Propeller.js -->
@@ -139,21 +154,6 @@
 		<script type="text/javascript" src="/public/js/transformedApps/app1/indexAppTransformed.js"></script>
 
 		<script type="text/javascript" src="/scripts/socket.io-client/dist/socket.io.slim.js"></script>
-
-		<script>
-			var socket = io('/');
-  			socket.on('news', function (data) {
-    			console.log(data);
-
-    			socket.emit('my other event', { my: 'data normal' });
-
-			});
-
-			socket.on('numar',function(data){
-      				console.log(data);
-      
-  			});
-		</script>
 
 	</body>
 </html>

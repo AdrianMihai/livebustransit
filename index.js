@@ -57,6 +57,15 @@ app.get('/', (req, res) => {
 	
 });
 
+app.get('/busRoutes', (request, response) => {
+	con.query("SELECT * FROM bus_routes", function(error, results, fields){
+		for (let i = 0; i < results.length; i++) {
+			results[i].route_file = JSON.parse(fs.readFileSync('public/route-files/' + results[i].route_file, 'utf8'));
+		}
+		response.send(results);
+	});
+});
+
 app.get('/busWatcher', (req, res) => {
 	res.type('text/html');
 
@@ -73,7 +82,7 @@ app.get('/isBusLoggedIn', (request, response) => {
 
 	if (typeof request.session.busData === 'object') {
 		if (Object.keys(request.session.busData) == [])
-			request.session.busData = null;
+			request.session.busData = undefined;
 	}
 
 	response.type('json');
@@ -102,6 +111,12 @@ app.get('/isBusLoggedIn', (request, response) => {
 
 	}
 
+});
+
+app.get('/busLogOut', (request, response) => {
+	request.session.busData = undefined;
+
+	response.send({STATUS: "OK"});
 });
 
 app.post('/busLogIn', (req, response) => {
@@ -147,7 +162,8 @@ app.post('/busLogIn', (req, response) => {
 let userSockets = io.of('/'), users= [];
 
 userSockets.on('connection', function (socket) {
-//introducem clientul in cients
+
+	//introducem clientul in cients
 	socket.on('storeClientInfo', function (data) {
 		console.log(data);
 		var userInfo = new Object();
@@ -156,6 +172,12 @@ userSockets.on('connection', function (socket) {
 		users.push(userInfo);
 	});
 
+	setInterval(() => {
+		con.query("SELECT * FROM buses", function(error, results, fields){
+			socket.emit('busData', results);
+		});
+		
+	}, 2000);
 
     socket.on('disconnect', function(){
 	//stergem clientul din sesiunea curenta
@@ -197,6 +219,11 @@ busesSockets.on('connection', function (socket) {
 
 	socket.on('bus-new-location', function(data){
 		console.log(data);
+		con.query('UPDATE buses SET current_location_lat = ?, current_location_lng = ?, speed = ?, updated_at = ? WHERE id = ?',
+			[data.currentLocationLat, data.currentLocationLng, data.speed, data.currentTime, data.busId],
+			function(error, results, fields) {
+				console.log(results);
+			});
 	});
  
   	socket.on('disconnect', function(){

@@ -37,14 +37,16 @@ html, body, #map {
 
 /* line 38, ../sass/propellerPage.scss */
 .bus-icon {
-  width: 50px !important;
-  height: 30px !important;
-  text-align: center;
-  background-color: red;
-  border-radius: 14px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50px;
+  background-color: #333;
+  -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.75);
 }
 
-/* line 48, ../sass/propellerPage.scss */
+/* line 49, ../sass/propellerPage.scss */
 .bus-icon:after {
   position: relative;
   top: 5px;
@@ -53,7 +55,7 @@ html, body, #map {
 }
 
 @media screen and (min-width: 768px) {
-  /* line 59, ../sass/propellerPage.scss */
+  /* line 60, ../sass/propellerPage.scss */
   #pmd-main .pmd-sidebar {
     top: 65px;
   }
