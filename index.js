@@ -114,9 +114,24 @@ app.get('/isBusLoggedIn', (request, response) => {
 });
 
 app.get('/busLogOut', (request, response) => {
-	request.session.busData = undefined;
 
-	response.send({STATUS: "OK"});
+	if (request.session.busData) {
+		con.query("UPDATE buses SET auth_token = ? WHERE id = ?",
+			[null, request.session.busData.id],
+			(error, results, fields) => {
+
+				if (error) {
+					throw error;
+				}
+				
+				request.session.busData = undefined;
+				response.send({STATUS: "OK"});
+		});	
+	}
+	else {
+		response.send({STATUS: "NOT_LOGGED_IN"});
+	}
+	
 });
 
 app.post('/busLogIn', (req, response) => {
@@ -139,8 +154,14 @@ app.post('/busLogIn', (req, response) => {
 	  				//insert data to session here
 	  				req.session.busData = {id: results[0]['id']};
 
-	  				results[0]['STATUS'] = "logged_in";
-	  				response.send(JSON.stringify(results[0]));
+	  				con.query("UPDATE buses SET auth_token = ? WHERE id = ?",
+	  					[results[0]['id'].toString(), results[0]['id'] ],
+	  					(error1, results1, fields1) => {
+
+	  						results[0]['STATUS'] = "logged_in";
+	  						response.send(JSON.stringify(results[0]));
+	  				});
+	  				
 	  			}
 	  			else {
 	  				response.send(JSON.stringify({STATUS: "invalid_password"}));

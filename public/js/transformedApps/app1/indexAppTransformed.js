@@ -35776,7 +35776,7 @@ class LeafletMap extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 		this.state = {
 			map: {},
 			socket: __WEBPACK_IMPORTED_MODULE_2_socket_io_client___default()('/'),
-			selectedRoute: null,
+			routeLayerGroup: null,
 			activeBusMarkers: {}
 		};
 
@@ -35877,22 +35877,33 @@ class LeafletMap extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 			    layerGroup = __WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.layerGroup([]);
 
 			for (var i = 0; i < this.props.selectedRoute.route_file.length; i++) {
-				latLngs.push([this.props.selectedRoute.route_file[i].lat, this.props.selectedRoute.route_file[i].lon]);
+				latLngs.push([this.props.selectedRoute.route_file[i].lat, this.props.selectedRoute.route_file[i].lng]);
 
 				if (this.props.selectedRoute.route_file[i].station === true) {
-					let marker = __WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.marker([this.props.selectedRoute.route_file[i].lat, this.props.selectedRoute.route_file[i].lon]).bindPopup(this.props.selectedRoute.route_file[i].stationName);
+					let marker = __WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.marker([this.props.selectedRoute.route_file[i].lat, this.props.selectedRoute.route_file[i].lng]).bindPopup(this.props.selectedRoute.route_file[i].stationName);
 					layerGroup.addLayer(marker);
 				}
 			}
 
-			latLngs.push([this.props.selectedRoute.route_file[i - 1].lat, this.props.selectedRoute.route_file[i - 1].lon]);
-			latLngs.push([this.props.selectedRoute.route_file[0].lat, this.props.selectedRoute.route_file[0].lon]);
+			/*
+   latLngs.push([this.props.selectedRoute.route_file[i - 1].lat, this.props.selectedRoute.route_file[i - 1].lng]);
+   latLngs.push([this.props.selectedRoute.route_file[0].lat, this.props.selectedRoute.route_file[0].lng]);
+   */
 
 			let polyline = __WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.polyline(latLngs, { color: '#3366ff', opacity: 0.75 });
 			layerGroup.addLayer(polyline).addTo(this.state.map);
 
 			// zoom the map to the polyline
 			this.state.map.fitBounds(polyline.getBounds());
+
+			//remove the current layer group if it is existent
+			if (this.state.routeLayerGroup != null) {
+				this.state.routeLayerGroup.remove();
+			}
+
+			this.setState({
+				routeLayerGroup: layerGroup
+			});
 		}
 	}
 }

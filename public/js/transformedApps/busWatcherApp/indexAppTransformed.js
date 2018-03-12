@@ -22319,6 +22319,17 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 		alert(e);
 	}
 
+	componentWillUnmount() {
+		$.get('/busLogOut', data => {
+			if (data.STATUS === 'OK') {
+				this.setState({
+					busUser: null,
+					isLoggedIn: false
+				});
+			}
+		});
+	}
+
 	render() {
 		return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
 			'div',
