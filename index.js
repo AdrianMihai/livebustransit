@@ -173,7 +173,8 @@ userSockets.on('connection', function (socket) {
 	});
 
 	setInterval(() => {
-		con.query("SELECT * FROM buses", function(error, results, fields){
+		con.query("SELECT * FROM buses WHERE auth_token IS NOT NULL", function(error, results, fields){
+
 			socket.emit('busData', results);
 		});
 		

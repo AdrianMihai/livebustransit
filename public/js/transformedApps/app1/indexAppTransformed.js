@@ -35782,6 +35782,7 @@ class LeafletMap extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 
 		this.receivedBusData = this.receivedBusData.bind(this);
 		this.isKeyInObject = this.isKeyInObject.bind(this);
+		this.haveDifferentIds = this.haveDifferentIds.bind(this);
 	}
 
 	isKeyInObject(key, obj) {
@@ -35794,17 +35795,45 @@ class LeafletMap extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 		return false;
 	}
 
+	haveDifferentIds(obj1, obj2) {
+		console.log(obj1, obj2);
+		if (obj1 === null && obj2 != null) {
+			if (obj2.hasOwnProperty('id')) return true;
+		}
+
+		if (obj1 && obj2) {
+			if (typeof obj1 === 'object' && typeof obj2 === 'object') {
+				if (obj1.hasOwnProperty('id') == true && obj2.hasOwnProperty('id') == true) {
+					return obj1.id != obj2.id;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	receivedBusData(data) {
-		/*
-  let activeMarkers = this.state.activeBusMarkers,
-  	divIcon = L.divIcon({className: 'bus-icon'});;
-  		for (var i = data.length - 1; i >= 0; i--) {
-  	if (this.isKeyInObject(data[i].id.toString(), this.state.activeBusMarkers) == false) {
-  		activeMarkers[data[i].id.toString()] = L.marker(L.latLng(current_location_lat, current_location_lng), {icon:divIcon});
-  	}
-  }
-  console.log(data);
-  */
+		if (data != null) {
+			let activeMarkers = this.state.activeBusMarkers,
+			    divIcon = __WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.divIcon({ className: 'bus-icon' });;
+
+			for (var i = data.length - 1; i >= 0; i--) {
+				if (this.isKeyInObject(data[i].id.toString(), this.state.activeBusMarkers) == false) {
+					console.log("Got a new bus! ");
+
+					activeMarkers[data[i].id.toString()] = __WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.marker(__WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.latLng(data[i].current_location_lat, data[i].current_location_lng), { icon: divIcon }).bindPopup("Line ");
+
+					activeMarkers[data[i].id.toString()].addTo(this.state.map);
+				} else {
+					console.log("Updated bus location.");
+					activeMarkers[data[i].id.toString()].setLatLng(__WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.latLng(data[i].current_location_lat, data[i].current_location_lng));
+				}
+			}
+
+			this.setState({
+				activeBusMarkers: activeMarkers
+			});
+		}
 	}
 
 	render() {
@@ -35840,7 +35869,10 @@ class LeafletMap extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 	}
 
 	componentDidUpdate(prevProps) {
-		if (this.props.selectedRoute != null) {
+		if (this.haveDifferentIds(prevProps.selectedRoute, this.props.selectedRoute) === true) {
+
+			console.log(prevProps, this.props.selectedRoute);
+
 			let latLngs = [],
 			    layerGroup = __WEBPACK_IMPORTED_MODULE_1_leaflet___default.a.layerGroup([]);
 
@@ -35862,7 +35894,6 @@ class LeafletMap extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
 			// zoom the map to the polyline
 			this.state.map.fitBounds(polyline.getBounds());
 		}
-		console.log(this.props);
 	}
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = LeafletMap;

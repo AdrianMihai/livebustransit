@@ -51,11 +51,10 @@ html, body, #map {
   position: relative;
   top: 5px;
   color: #fff;
-  content: "Line 31";
 }
 
 @media screen and (min-width: 768px) {
-  /* line 60, ../sass/propellerPage.scss */
+  /* line 58, ../sass/propellerPage.scss */
   #pmd-main .pmd-sidebar {
     top: 65px;
   }
