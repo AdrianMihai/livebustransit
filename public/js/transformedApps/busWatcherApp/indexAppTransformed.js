@@ -22259,7 +22259,6 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 	}
 
 	onLocationFound(e) {
-		this.state.busMarker.setLatLng(e.latlng);
 
 		let dataToBeInserted = {
 			busId: this.state.busData.id,
@@ -22270,46 +22269,43 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		this.locationPoints.push({ lat: e.latitude, lng: e.longitude, timeStamp: e.timestamp });
 
-		if (this.locationPoints.length > 2) this.locationPoints.splice(0, 1);
+		if (this.locationPoints.length > 4) this.locationPoints.splice(0, 1);
 
-		if (this.locationPoints.length === 2) {
-			const time = Math.abs(this.locationPoints[1].timeStamp - this.locationPoints[0].timeStamp) / (1000 * 60 * 60);
-			let distance = 0;
+		if (this.locationPoints.length > 2) {
+			const time = Math.abs(this.locationPoints[this.locationPoints.length - 1].timeStamp - this.locationPoints[this.locationPoints.length - 2].timeStamp) / (1000 * 60 * 60);
+			let distance = 0,
+			    averageSpeed = 0;
 
-			/*
-   const googleRoadsApiUrl = 'https://roads.googleapis.com/v1/snapToRoads?path=' +
-   	this.locationPoints[0].lat.toString() + ',' + this.locationPoints[0].lng.toString() + '| ' +
-   	this.locationPoints[1].lat.toString() + ',' + this.locationPoints[1].lng.toString() +
-   	'&interpolate=true&key=AIzaSyCsKxsBnBH0Vhg9pTMJF9ef-qiDK3IbL0g';
-   		$.get(googleRoadsApiUrl, (data) => {
-   	for (var i = data.length - 1; i > 0; i--) {
-   		distance += this.state.map.distance(L.latLng(data[i].location.latitude, data[i].longitude), L.latLng(data[i - 1].location.latitude, data[i - 1].longitude));
-   	}
-   });
-   */
+			//
+			const googleRoadsApiUrl = 'https://roads.googleapis.com/v1/snapToRoads?path=' + this.locationPoints[0].lat.toString() + ',' + this.locationPoints[0].lng.toString() + '| ' + this.locationPoints[this.locationPoints.length - 1].lat.toString() + ',' + this.locationPoints[this.locationPoints.length - 1].lng.toString() + '&interpolate=true&key=AIzaSyCsKxsBnBH0Vhg9pTMJF9ef-qiDK3IbL0g',
+			      overallTime = Math.abs(this.locationPoints[this.locationPoints.length - 1].timeStamp - this.locationPoints[0].timeStamp) / (1000 * 60 * 60);
 
-			distance = this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[0].lat, this.locationPoints[0].lng), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[1].lat, this.locationPoints[1].lng));
-			distance /= 1000;
+			distance = this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[this.locationPoints.length - 2].lat, this.locationPoints[this.locationPoints.length - 2].lng), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(this.locationPoints[this.locationPoints.length - 1].lat, this.locationPoints[this.locationPoints.length - 1].lng)) / 1000;
 
-			dataToBeInserted.speed = time == 0 ? 0 : Math.floor(distance / time);
+			$.get(googleRoadsApiUrl, data => {
+				let pts = data.snappedPoints;
 
-			console.log(distance, time);
+				for (let i = pts.length - 1; i > 0; i--) {
+					console.log(pts[i]);
+					averageSpeed += this.state.map.distance(__WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(pts[i].location.latitude, pts[i].location.longitude), __WEBPACK_IMPORTED_MODULE_2_leaflet___default.a.latLng(pts[i - 1].location.latitude, pts[i - 1].location.longitude));
+				}
+			});
 
+			//up to here the average speed is the sum of distnaces between the points returned by the google maps api
+			averageSpeed = averageSpeed / overallTime; //calculate the speed
+
+			averageSpeed = Math.floor((averageSpeed + distance / time) / 2);
+
+			console.log(averageSpeed);
+
+			dataToBeInserted.speed = time == 0 ? 0 : averageSpeed;
 			this.state.socket.emit('bus-new-location', dataToBeInserted);
+			this.state.busMarker.setLatLng(e.latlng);
 
 			this.setState({
-				currentSpeed: dataToBeInserted.speed
+				currentSpeed: averageSpeed
 			});
 		}
-
-		//$.get('https://roads.googleapis.com/v1/snapToRoads?path=|-35.28473,149.12836&interpolate=true&key=AIzaSyCsKxsBnBH0Vhg9pTMJF9ef-qiDK3IbL0g')
-
-		/*
-  //get de distance in km
-  let distance = ( this.state.map.distance(e.latlng, L.latLng(46.730740, 23.486197)) +
-  	this.state.map.distance(L.latLng(46.730740, 23.486197), L.latLng(46.732914, 23.483642)) )/ 1000; 
-  let time = Math.floor(distance / this.state.humanWalkingSpeed * 60);
-  		*/
 
 		//this.state.map.setView(this.state.mapMarker.getLatLng(), this.state.map.getZoom()); 
 		//this.state.socket.emit('bus-new-location', dataToBeInserted);

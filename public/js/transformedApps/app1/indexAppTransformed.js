@@ -39596,10 +39596,11 @@ class Client extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
 		//start tracking the user's location
 		this.state.map.locate({
-			setView: true,
+			//setView: true,
 			maxZoom: 16,
 			watch: true,
-			enableHighAccuracy: true
+			enableHighAccuracy: true,
+			timeout: 10000
 		});
 
 		this.state.map.on('locationfound', this.onLocationFound);
