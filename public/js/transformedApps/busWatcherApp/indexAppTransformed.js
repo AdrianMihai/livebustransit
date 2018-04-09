@@ -22269,9 +22269,9 @@ class BusUserMap extends __WEBPACK_IMPORTED_MODULE_0_react__["Component"] {
 
 		this.locationPoints.push({ lat: e.latitude, lng: e.longitude, timeStamp: e.timestamp });
 
-		if (this.locationPoints.length > 4) this.locationPoints.splice(0, 1);
+		if (this.locationPoints.length > 2) this.locationPoints.splice(0, 1);
 
-		if (this.locationPoints.length > 2) {
+		if (this.locationPoints.length >= 2) {
 			const time = Math.abs(this.locationPoints[this.locationPoints.length - 1].timeStamp - this.locationPoints[this.locationPoints.length - 2].timeStamp) / (1000 * 60 * 60);
 			let distance = 0,
 			    averageSpeed = 0;
