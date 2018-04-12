@@ -7,11 +7,22 @@ const express = require('express'),
 	bodyParser = require('body-parser'),
 	bcrypt = require('bcrypt'),
 	cookieSession = require('cookie-session'),
-	port = process.env.PORT || 3000;
+	port = process.env.PORT || 3000,
+	env = process.env.NODE_ENV || 'development';
 
 const io = require('socket.io')(server);
 
 server.listen(port);
+
+const forceSsl = function (req, res, next) {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+        return res.redirect(['https://', req.get('Host'), req.url].join(''));
+    }
+    return next();
+};
+
+if (env === 'production')
+	app.use(forceSsl);
 
 var con = mySql.createConnection({
   host: "sulnwdk5uwjw1r2k.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -213,8 +224,6 @@ userSockets.on('connection', function (socket) {
       }
     });
 });
-
-
 
 //buses sockets
 let busesSockets = io.of('/bus');
