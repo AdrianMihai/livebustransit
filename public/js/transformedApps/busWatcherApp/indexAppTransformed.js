@@ -4660,7 +4660,15 @@ class App extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 					isLoggedIn: true
 				});
 			} else {
+
 				//here the bus user is not logged in, display a message
+				if (data.STATUS == "invalid_username") {
+					__WEBPACK_IMPORTED_MODULE_4_jquery___default()(".login-error-toggler.pmd-alert-toggle").attr('data-message', 'There is no user with the given name!');
+				} else if (data.STATUS == "invalid_password") {
+					__WEBPACK_IMPORTED_MODULE_4_jquery___default()(".login-error-toggler.pmd-alert-toggle").attr('data-message', 'The password for the given user is wrong!');
+				}
+
+				__WEBPACK_IMPORTED_MODULE_4_jquery___default()(".login-error-toggler.pmd-alert-toggle").click();
 			}
 		});
 	}
