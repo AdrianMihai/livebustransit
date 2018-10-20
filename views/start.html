@@ -8,6 +8,8 @@
 
 		<title>Live Bus Transit</title>
 
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 		<!-- Bootstrap css-->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 	 
@@ -27,6 +29,7 @@
 	<body>
 
 		<!--NAVBAR -->
+		<!--
 		<nav class="navbar navbar-inverse pmd-navbar navbar-fixed-top pmd-z-depth">
 			<div class="container-fluid">
 
@@ -53,16 +56,15 @@
 				
 			</div>
 		</nav>
-
+		-->
 		<section id="pmd-main">
 	        <!-- Left sidebar -->
-	        <aside 
+	        <!-- <aside 
 	        	id = "navigation-sidebar"
 	         	class="pmd-sidebar sidebar-default pmd-sidebar-left-fixed pmd-sidebar-left pmd-z-depth">
 	            <ul class="nav pmd-sidebar-nav">
-	                <!-- My Account -->
 	                <li class="dropdown pmd-dropdown pmd-user-info">
-	                	<!--
+	                	
 	                    <a aria-expanded="false" data-toggle="dropdown" data-sidebar="true" class="btn-user dropdown-toggle media" href="javascript:void(0);">
 	                        <div class="media-left">
 	                            <img width="40" height="40" alt="avatar" src="http://propeller.in/assets/images/avatar-icon-40x40.png">
@@ -76,72 +78,28 @@
 	                        <li> <a class="pmd-ripple-effect" href="javascript:void(0);" tabindex="-1"><i class="material-icons media-left media-middle">settings</i> <span class="media-body">Settings</span></a></li>
 	                        <li> <a class="pmd-ripple-effect" href="javascript:void(0);" tabindex="-1"><i class="material-icons media-left media-middle">history</i> <span class="media-body">Logout</span></a></li>
 	                    </ul>
-						-->
+						
 	                </li>
 
 	                <li>
-	                	<a class="pmd-ripple-effect" href="javascript:void(0);">
+	                	<a class="pmd-ripple-effect" href="" data-target="#login-selection" data-toggle="modal">
 	                		<i class="material-icons media-left media-middle">input</i>
 	                		<span class="media-body">Log in</span>
 	                	</a>
 	                </li>
 
 	                <li>
-	                	<a class="pmd-ripple-effect" href="javascript:void(0);" data-target="#route-selection" data-toggle="modal">
+	                	<a class="pmd-ripple-effect" href="" data-target="#route-selection" data-toggle="modal">
 	                		<i class="material-icons media-left media-middle">near_me</i>
 	                		<span class="media-body">Set up route</span>
 	                	</a>
 	                </li>
 	            </ul>
-	        </aside>
-    		
+	        </aside> -->
+
     		<div id="map"></div>
     		<div class="pmd-sidebar-overlay"></div>
     		<div id="react-root"></div>
-	    <!-- Start Content -->
-
-	    <!-- MODAL
-	    <div tabindex="-1" class="modal fade" id="route-selection" style="display: none;" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header pmd-modal-bordered"> 
-						<h3 class="pmd-card-title-text">Select your prefered route</h3>
-					</div>
-					<div class="modal-body">
-						<div class="radio">
-							<label class="pmd-radio">
-								<input type="radio" name="inlineRadioOptions" id="Ahmedabad" value="option1">
-								<span for="Ahmedabad">Ahmedabad</span> </label>
-						</div>
-						<div class="radio">
-							<label class="pmd-radio">
-								<input type="radio" name="inlineRadioOptions" id="Surat" value="option1">
-								<span for="Surat">Surat</span> </label>
-						</div>
-						<div class="radio">
-							<label class="pmd-radio">
-								<input type="radio" name="inlineRadioOptions" id="Rajkot" value="option1">
-								<span for="Rajkot">Rajkot</span> </label>
-						</div>
-						<div class="radio">
-							<label class="pmd-radio">
-								<input type="radio" name="inlineRadioOptions" id="Vadodara" value="option1">
-								<span for="Vadodara">Vadodara</span> </label>
-						</div>
-						<div class="radio">
-							<label class="pmd-radio">
-								<input type="radio" name="inlineRadioOptions" id="Mehsana" value="option1">
-								<span for="Mehsana">Mehsana</span> </label>
-						</div>
-					</div>
-					<div class="pmd-modal-action pmd-modal-bordered text-right">
-						<button data-dismiss="modal"  class="btn pmd-ripple-effect btn-primary pmd-btn-flat" type="button">Ok</button>
-						<button data-dismiss="modal"  class="btn pmd-ripple-effect btn-default pmd-btn-flat" type="button">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		-->
     	</section>
 
 		<!-- jQuery before Propeller.js -->
@@ -149,11 +107,48 @@
 
 		<!-- Include all compiled plugins (below), or include individual files as needed -->
 		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+		<!--Bootstrap Tooltips -->
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+
+		<!--
 		<script type="text/javascript" src="/scripts/propellerkit/dist/js/propeller.min.js"></script>
+		-->
 
 		<script type="text/javascript" src="/public/js/transformedApps/app1/indexAppTransformed.js"></script>
-
 		<script type="text/javascript" src="/scripts/socket.io-client/dist/socket.io.slim.js"></script>
+
+		<script type="text/javascript">
+			
+  			/*window.fbAsyncInit = function() {
+  				console.log("fb init");
+    			FB.init({
+			        appId      : '490555714761829',
+			        cookie     : true,
+			        xfbml      : true,
+			        version    : 'v3.1'
+    			});
+
+    			FB.AppEvents.logPageView();
+    			FB.login(function(response){
+    				//alert("what");
+    				console.log(response);
+    			}, {scope: 'public_profile,email'});
+
+     			FB.getLoginStatus(function(response) {
+    				console.log(response);
+				});
+      		};*/
+
+    		/*(function(d, s, id){
+			    var js, fjs = d.getElementsByTagName(s)[0];
+			    if (d.getElementById(id)) {return;}
+			    js = d.createElement(s); js.id = id;
+			    js.src = "https://connect.facebook.net/en_US/sdk.js";
+			    fjs.parentNode.insertBefore(js, fjs);
+   			}(document, 'script', 'facebook-jssdk'));*/
+
+		</script>
 
 	</body>
 </html>

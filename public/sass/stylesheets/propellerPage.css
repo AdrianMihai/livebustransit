@@ -53,8 +53,32 @@ html, body, #map {
   color: #fff;
 }
 
+/* line 56, ../sass/propellerPage.scss */
+.btn .fa {
+  position: relative;
+  padding-right: 1em;
+  font-size: 0.9rem;
+}
+
+/* line 62, ../sass/propellerPage.scss */
+.btn-fb {
+  background-color: #3b5998 !important;
+  color: #fff;
+}
+
+/* line 67, ../sass/propellerPage.scss */
+.btn-gplus {
+  background-color: #dd4b39 !important;
+  color: #fff !important;
+}
+
+/* line 72, ../sass/propellerPage.scss */
+.pmd-sidebar .pmd-sidebar-nav li.pmd-dropdown.open .dropdown-menu {
+  opacity: 1;
+}
+
 @media screen and (min-width: 768px) {
-  /* line 58, ../sass/propellerPage.scss */
+  /* line 78, ../sass/propellerPage.scss */
   #pmd-main .pmd-sidebar {
     top: 65px;
   }
