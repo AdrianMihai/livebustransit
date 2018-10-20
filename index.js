@@ -9,7 +9,7 @@ const express = require('express'),
     cookieSession = require('cookie-session'),
     port = process.env.PORT || 3000,
     env = process.env.NODE_ENV || 'development',
-    utilities = require('./node_modules/utilities/utilities.js').utilities;
+    utilities = require('./utilities/utilities.js').utilities;
 
 utilities.generateCSRFToken();
 
