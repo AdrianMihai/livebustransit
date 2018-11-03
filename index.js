@@ -1,6 +1,5 @@
 const express = require('express'),
     app = express(),
-    server = require('http').Server(app),
     fs = require('fs'),
     url = require('url'),
     mySql = require('mysql'),
@@ -10,12 +9,9 @@ const express = require('express'),
     port = process.env.PORT || 3000,
     env = process.env.NODE_ENV || 'development',
     utilities = require('./utilities/utilities.js').utilities;
+var server;
 
 utilities.generateCSRFToken();
-
-const io = require('socket.io')(server);
-
-server.listen(port);
 
 const forceSsl = function(req, res, next) {
     if (req.headers['x-forwarded-proto'] !== 'https') {
@@ -24,8 +20,21 @@ const forceSsl = function(req, res, next) {
     return next();
 };
 
-if (env === 'production')
-    app.use(forceSsl);
+if (env === 'production'){
+	server = require('http').Server(app);
+	app.use(forceSsl);
+}
+else {
+	const https = require('https');
+	server = https.createServer({
+		key: fs.readFileSync('server.key'),
+		cert: fs.readFileSync('server.cert')
+	}, app);
+}
+
+server.listen(port);
+
+const io = require('socket.io')(server);
 
 var con = mySql.createConnection({
     host: "sulnwdk5uwjw1r2k.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
@@ -36,7 +45,7 @@ var con = mySql.createConnection({
 
 con.connect(function(err) {
     if (err) throw err;
-    console.log("Connected!");
+    console.log("Connected to database!");
 });
 
 

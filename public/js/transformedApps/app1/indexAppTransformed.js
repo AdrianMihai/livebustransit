@@ -52418,7 +52418,7 @@ class Sidebar extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 						__WEBPACK_IMPORTED_MODULE_1_jquery___default()('#login-selection').unbind('hidden.bs.modal');
 						this.props.userData.updateUserData(resp, 'facebook', response.status);
 					});
-					//this.updateLoginStatus(response.status);
+					this.updateLoginStatus(response.status);
 				});
 			}
 		});
