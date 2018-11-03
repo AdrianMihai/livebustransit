@@ -1,6 +1,9 @@
 {
   "name": "live-bus-transit",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.11.3"
+  },
   "description": "Application that displays buses in real time.",
   "main": "index.js",
   "scripts": {
